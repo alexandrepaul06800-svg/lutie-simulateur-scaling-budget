@@ -187,52 +187,73 @@ export default function App() {
     }
   }, [budgetActuel, budgetCible, roasActuel, tauxOpt, tauxReal, tauxPess, marge])
 
+  // ROAS seuil de rentabilité (danger zone)
+  const roasSeuil = marge && Number(marge) > 0 && Number(marge) < 100
+    ? 1 / (Number(marge) / 100)
+    : null
+
   // Courbes Chart.js
   const chartData = useMemo(() => {
     if (!hasCore) return null
     const ba = Number(budgetActuel)
     const bc = Number(budgetCible)
     const ra = Number(roasActuel)
+    const seuil = marge && Number(marge) > 0 && Number(marge) < 100
+      ? 1 / (Number(marge) / 100)
+      : null
 
     const cOpt = genererCourbe(ba, bc, ra, tauxOpt)
     const cReal = genererCourbe(ba, bc, ra, tauxReal)
     const cPess = genererCourbe(ba, bc, ra, tauxPess)
 
     const labels = cReal.map(p => `${(p.budget / 1000).toFixed(1)}k€`)
+    const nbPoints = labels.length
 
-    return {
-      labels,
-      datasets: [
-        {
-          label: "Optimiste",
-          data: cOpt.map(p => p.roas.toFixed(2)),
-          borderColor: "#10b981",
-          backgroundColor: "rgba(16,185,129,0.05)",
-          borderWidth: 2,
-          pointRadius: 0,
-          tension: 0.4,
-        },
-        {
-          label: "Réaliste",
-          data: cReal.map(p => p.roas.toFixed(2)),
-          borderColor: "#fcb800",
-          backgroundColor: "rgba(252,184,0,0.07)",
-          borderWidth: 2.5,
-          pointRadius: 0,
-          tension: 0.4,
-        },
-        {
-          label: "Pessimiste",
-          data: cPess.map(p => p.roas.toFixed(2)),
-          borderColor: "#a19aff",
-          backgroundColor: "rgba(161,154,255,0.07)",
-          borderWidth: 2,
-          pointRadius: 0,
-          tension: 0.4,
-        },
-      ],
+    const datasets = [
+      {
+        label: "Optimiste",
+        data: cOpt.map(p => p.roas.toFixed(2)),
+        borderColor: "#10b981",
+        backgroundColor: "rgba(16,185,129,0.05)",
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.4,
+      },
+      {
+        label: "Réaliste",
+        data: cReal.map(p => p.roas.toFixed(2)),
+        borderColor: "#fcb800",
+        backgroundColor: "rgba(252,184,0,0.07)",
+        borderWidth: 2.5,
+        pointRadius: 0,
+        tension: 0.4,
+      },
+      {
+        label: "Pessimiste",
+        data: cPess.map(p => p.roas.toFixed(2)),
+        borderColor: "#a19aff",
+        backgroundColor: "rgba(161,154,255,0.07)",
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.4,
+      },
+    ]
+
+    if (seuil) {
+      datasets.push({
+        label: `ROAS seuil (${seuil.toFixed(2)})`,
+        data: Array(nbPoints).fill(seuil.toFixed(2)),
+        borderColor: "#ef4444",
+        backgroundColor: "transparent",
+        borderWidth: 1.5,
+        borderDash: [6, 4],
+        pointRadius: 0,
+        tension: 0,
+      })
     }
-  }, [budgetActuel, budgetCible, roasActuel, tauxOpt, tauxReal, tauxPess])
+
+    return { labels, datasets }
+  }, [budgetActuel, budgetCible, roasActuel, tauxOpt, tauxReal, tauxPess, marge])
 
   const chartOptions = {
     responsive: true,
@@ -336,6 +357,11 @@ export default function App() {
               <p className="chart-disclaimer">
                 ⚠️ Estimations basées sur les tendances observées dans la littérature Google Ads (WordStream, Search Engine Land). Ces projections sont indicatives et dépendent de la maturité de tes campagnes.
               </p>
+              {!marge && (
+                <p className="chart-disclaimer" style={{ marginTop: "var(--space-xs)", color: "var(--color-primary)" }}>
+                  ⚡ Ajoute ta marge dans "Calibrer" pour afficher le seuil de rentabilité sur le graphique.
+                </p>
+              )}
             </div>
 
             {/* Tableau des scénarios */}
