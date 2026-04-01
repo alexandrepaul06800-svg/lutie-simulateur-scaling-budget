@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react"
+import { useState, useRef, useMemo, useEffect } from "react"
 import Lottie from "lottie-react"
 import {
   Chart as ChartJS,
@@ -100,9 +100,9 @@ function LottieBtn({ href, children }) {
   const lottieRef2 = useRef(null)
   const [animData, setAnimData] = useState(null)
 
-  useState(() => {
+  useEffect(() => {
     fetch("/lottie-btn.json").then(r => r.json()).then(setAnimData).catch(() => {})
-  })
+  }, [])
 
   return (
     <a
@@ -432,7 +432,7 @@ export default function App() {
                 <p className="calibration-note">
                   {typeCampagne === "Performance Max" && "⚠️ Performance Max : dégradation plus forte car la plateforme élargit automatiquement les audiences au scaling."}
                   {typeCampagne === "Search" && "✓ Search : dégradation plus modérée — le volume de requêtes est naturellement limité."}
-                  {typeCampagne === "Shopping" && "Search : dégradation dans la moyenne du marché."}
+                  {typeCampagne === "Shopping" && "Shopping : dégradation dans la moyenne du marché."}
                 </p>
               </div>
             )}
