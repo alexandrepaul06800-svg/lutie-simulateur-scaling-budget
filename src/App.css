@@ -1,0 +1,211 @@
+/* ============================================
+   Tool D — Simulateur Scaling Budget
+   ============================================ */
+
+.tool-header {
+  margin-bottom: var(--space-3xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.tool-logo img { height: 32px; width: auto; }
+
+.tool-headline {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--color-text-heading);
+  line-height: 1.2;
+  margin-top: var(--space-lg);
+}
+
+.tool-subtitle {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+.section-card { margin-bottom: var(--space-lg); }
+.section-card:hover { transform: none; box-shadow: var(--shadow-card); }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-lg);
+}
+
+.input-with-suffix { position: relative; display: flex; align-items: center; }
+.input-with-suffix input { padding-right: 48px; }
+.input-suffix {
+  position: absolute;
+  right: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+.tooltip-wrapper { position: relative; display: inline-block; margin-left: 6px; vertical-align: middle; }
+.tooltip-trigger {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--color-bg-medium); border: none;
+  font-size: 11px; font-weight: 700; color: var(--color-text-secondary);
+  cursor: pointer; transition: background 0.2s;
+}
+.tooltip-trigger:hover { background: var(--color-primary-light); color: var(--color-text-heading); }
+.tooltip-box {
+  position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  background: var(--color-dark); color: #fff;
+  font-size: 12px; line-height: 1.5; padding: 8px 12px;
+  border-radius: var(--radius-sm); width: 220px; z-index: 100;
+}
+.tooltip-box::after {
+  content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--color-dark);
+}
+
+.info-msg {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  margin-bottom: var(--space-lg);
+}
+
+/* Chart */
+.chart-card { }
+.chart-container { height: 260px; position: relative; }
+.chart-disclaimer {
+  margin-top: var(--space-sm);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Scenarios table */
+.scenarios-table {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.scenarios-header,
+.scenarios-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.scenarios-row--last { border-bottom: none; }
+
+.scenarios-header {
+  background: var(--color-bg-light);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sc-label {
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.sc-col {
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+  border-left: 1px solid var(--color-border-light);
+}
+
+.scenarios-header .sc-col {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.sc-opt { color: #0a7a51; }
+.sc-real { color: #92700a; }
+.sc-pess { color: #5c57cc; }
+
+.val-pos { color: var(--color-green) !important; }
+.val-neg { color: #cc4444 !important; }
+
+/* Conseil */
+.conseil-card:hover { transform: none; box-shadow: var(--shadow-card); }
+.conseil-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-heading);
+  margin-bottom: var(--space-lg);
+}
+
+.conseil-list { display: flex; flex-direction: column; gap: var(--space-md); }
+.conseil-item {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.conseil-num {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-bg);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-heading);
+}
+
+/* Expand */
+.expand-btn {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  background: none; border: none; padding: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; font-weight: 600; color: var(--color-text-heading);
+  cursor: pointer; transition: color 0.2s;
+}
+.expand-btn:hover { color: var(--color-primary); }
+.expand-content { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--color-border); }
+.expand-intro { font-size: 13px; color: var(--color-text-secondary); margin-bottom: var(--space-lg); }
+
+.calibration-note {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin-top: var(--space-sm);
+}
+
+/* CTA */
+.cta-section { text-align: center; padding: var(--space-4xl) 0 var(--space-2xl); }
+.cta-text { font-size: 20px; font-weight: 700; color: var(--color-text-heading); margin-bottom: var(--space-xl); }
+.lottie-btn { display: inline-flex; align-items: center; gap: 0; padding: 14px 28px; font-size: 16px; overflow: hidden; }
+.lottie-btn span { padding: 0 var(--space-sm); }
+.cta-sub { margin-top: var(--space-md); font-size: 12px; color: var(--color-text-secondary); }
+
+/* Footer */
+.tool-footer { margin-top: var(--space-4xl); padding-top: var(--space-lg); border-top: 1px solid var(--color-border); text-align: center; font-size: 12px; color: var(--color-text-secondary); }
+.tool-footer a { color: var(--color-text-heading); font-weight: 600; text-decoration: none; }
+.tool-footer a:hover { color: var(--color-primary); }
+
+@media (max-width: 768px) {
+  .tool-headline { font-size: 26px; }
+  .scenarios-header, .scenarios-row { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .sc-col, .sc-label { padding: 8px 8px; font-size: 11px; }
+  .chart-container { height: 200px; }
+}
